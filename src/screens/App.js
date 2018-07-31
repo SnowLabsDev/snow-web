@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import logo from './snow-logo.png'
+import logo from '../snow-logo.png'
 import axios from 'axios';
 
 import { connect } from 'react-redux';
@@ -8,28 +8,38 @@ import { connect } from 'react-redux';
 import {
   authPhoneChanged,
   authPinChanged,
-} from './actions';
+  authSuccess,
+} from '../actions';
 
-
-const API_URL = "https://snowlabsdev-api.herokuapp.com/api/";
+const TEST_OR_NAH = true;
+const API_URL = TEST_OR_NAH ? "http://localhost:3050/api/" : "https://snowlabsdev-api.herokuapp.com/api/";
 
 const mapStateToProps = ({ test }) => {
-  const { auth_phone, auth_pin } = test;
+  const { auth_phone, auth_pin, auth_success, user_info } = test;
   return {
     auth_phone,
     auth_pin,
+    auth_success,
+    user_info,
   };
 };
 
 
-export default connect(mapStateToProps, { authPhoneChanged, authPinChanged })(class AuthScreen extends Component {
+export default connect(mapStateToProps, { authPhoneChanged, authPinChanged, authSuccess })(class App extends Component {
 
   phoneChanged = (text) => {
+    console.log('phone');
     this.props.authPhoneChanged(text);
   }
 
   pinChanged = (text) => {
+    console.log('pin');
+    this.props.authPinChanged(text);
+  }
 
+  authSuccess = (user_obj) => {
+    console.log('auth');
+    this.props.authSuccess(user_obj);
   }
 
   tryAPI = async (event) => {
@@ -38,8 +48,19 @@ export default connect(mapStateToProps, { authPhoneChanged, authPinChanged })(cl
     const from_url = API_URL + "users/p/" + this.state.inputPhone;
     console.log(from_url);
     const user = await axios.get(from_url);
-    console.log(user);
+    console.log(user.data);
+    this.authSuccess(user);
   };
+
+  fullAuthAPI = async (event) => {
+    event.preventDefault();
+    const from_url = API_URL + "users/auth/" + this.state.inputPhone + "/"+this.state.inputPin;
+    console.log(from_url);
+
+    const user = await axios.get(from_url);
+    console.log(user.data);
+    this.authSuccess(user);
+  }
 
   render() {
     return (
@@ -66,7 +87,7 @@ export default connect(mapStateToProps, { authPhoneChanged, authPinChanged })(cl
             />
             <button
               className="button"
-              onClick={this.tryAPI}
+              onClick={this.fullAuthAPI}
               >
                 Login
             </button>

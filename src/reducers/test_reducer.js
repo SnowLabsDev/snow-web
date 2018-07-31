@@ -1,11 +1,14 @@
 import {
   AUTH_PHONE_CHANGED,
   AUTH_PIN_CHANGED,
+  AUTH_SUCCESS,
 } from '../types';
 
 const INIT_STATE = {
   auth_phone: '',
   auth_pin: '',
+  auth_success: false,
+  user_info: {},
 };
 
 export default function(state = INIT_STATE, action) {
@@ -17,6 +20,9 @@ export default function(state = INIT_STATE, action) {
 
     case AUTH_PIN_CHANGED:
       return {...state, auth_pin: action.payload};
+
+    case AUTH_SUCCESS:
+      return {...state, auth_success: true, user_info: action.payload}
 
     default:
       return state;
