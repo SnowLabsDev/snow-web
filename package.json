@@ -7,10 +7,14 @@
     "node": "7.10.0"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "eslint-module-utils": "^2.2.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-redux": "^5.0.7",
     "react-scripts": "1.1.4",
+    "redux": "^4.0.0",
+    "redux-promise": "^0.6.0",
     "web3": "^1.0.0-beta.26"
   },
   "scripts": {
