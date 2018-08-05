@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 //import './App.css';
 //import logo from '../snow-logo.png'
-import axios from 'axios';
-
+import axios from 'axios';import 'babel-polyfill';
+import queryString from 'query-string';
 import { connect } from 'react-redux';
 //import { Link } from 'react-router-dom';
-
+import Sidebar from '../components/Sidebar';
 /*
 import {
   populateContracts
@@ -35,55 +35,40 @@ export default connect(mapStateToProps, { })(class App extends Component {
       pin: "0000",
       __v: 0
     },
-    dispOwn: false,
-    dispIn: true
+    contract: 'test'
   }
 
-  populateOwnContracts = () => {
-    if(this.state.dispOwn) {
-      const ownList = this.state.user.ownContracts.map((c) => <p key={c}>{c}</p>);
-      return <div>{ownList}</div>;
+  componentWillMount () {
+    if (this.props.location.hasOwnProperty('search')) {
+      console.log('search');
     }
   }
 
-  populateInContracts = () => {
-    if(this.state.dispIn) {
-      const inList = this.state.user.inContracts.map((c) => <p key={c}>{c}</p>);
-      return <div>{inList}</div>;
+  
+  populate = async (t) => {
+    console.log('trying');
+    if (this.props.location) {
+      console.log(this.props.location.search);
+
+      const parsedProps = queryString.parse(this.props.location.search);
+      const id = "5b66064942d1a94c6d4c5b99";
+      const from_url = `${API_URL}contracts/id/${id}`
+      const res = await axios.get(from_url);
+      console.log(res.data._id);
+
+      this.setState({contract: res.data._id});
+
     }
   }
 
   render() {
     return (
-      <div style={styles.homepage}>
-        <div style={styles.sidebar}>
-          <div style={{"display": "flex", "justify-content": "center"}}>
-            <img style={styles.image} src="https://i.imgur.com/KegGE75.png" />
-          </div>
+      <div style={styles.homepageContainer}>
+        <Sidebar user={this.state.user} func={this.populate}/>
 
-          <div style={{"display": "flex", "position": "relative", "flex-direction": "column", "width": "100%"}}>
-            <div style={{"display": "flex", "flex-direction": "row", "justify-content": "center"}}>
-              <p>Hello {this.state.user.name}!</p>
-            </div>
-
-            <button
-              onClick={(event) => this.setState({dispOwn: !this.state.dispOwn})}
-              >
-              Contracts I own
-            </button>
-            {this.populateOwnContracts()}
-
-            <button
-              onClick={(event) => this.setState({dispIn: !this.state.dispIn})}
-              >
-              Contracts I'm in
-            </button>
-            {this.populateInContracts()}
-          </div>
-        </div>
 
         <div>
-          expansion one
+          <p>{this.state.contract}</p>
         </div>
 
         <div>
@@ -95,17 +80,18 @@ export default connect(mapStateToProps, { })(class App extends Component {
 });
 
 const styles = {
-  homepage: {
+  homepageContainer: {
     "display": "flex",
     "flex-direction": "row",
     "position": "absolute",
     "width": "100%",
     "height": "100%",
     "margin": "0px auto",
+    "padding": "0px auto",
     "padding": "0px",
-    "background-color": "#ff5656ff"
+    "background-color": "#494953"
   },
-  sidebar: {
+  sidebarContainer: {
     "background-color": "white",
     "position": "relative",
     "width": "300px",

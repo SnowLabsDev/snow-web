@@ -29,6 +29,13 @@ export default connect(mapStateToProps, { })(class App extends Component {
     user_info: {},
   }
 
+  componentWillMount () {
+    console.log('mounting');
+    if (this.props.location) {
+      console.log(this.props.location.pathname);
+    }
+  }
+
   setStateAsync(state) {
     return new Promise((resolve) => {
       this.setState(state, resolve);
@@ -41,41 +48,6 @@ export default connect(mapStateToProps, { })(class App extends Component {
     this.setState({user_info: this.props.location.state.user_info});
   }
 
-  populateOwnedContracts = () => {
-    // we need to make a contract object with a dropdown menu here
-    console.log('owncontracts');
-    console.log(this.state.user_info);
-
-
-    const ownContracts = this.state.user_info.ownContracts;
-
-
-    if (ownContracts.length === 0) {
-      return (<p>You do not own any contracts</p>);
-    } else {
-      const ownedList = ownContracts.map((n) => <li key={n}>{n}</li>);
-
-      return ownedList;
-    }
-
-}
-
-  populateInContracts = () => {
-
-    console.log('incontracts');
-
-    const inContracts = this.state.user_info.inContracts;
-
-    if (inContracts.length === 0) {
-      return (<p>You do not own any contracts</p>);
-    } else {
-      const inList = inContracts.map((n) => <li key={n}>{n}</li>);
-
-      return inList;
-    }
-
-
-  }
 
   button = () => {
 

@@ -1,6 +1,6 @@
 #App {
   display: flex;
-  background-color: #ff5656ff;
+  background-color: #494953;
   height: 100% !important;
   width: 100% !important;
   position: absolute;
@@ -9,7 +9,11 @@
   align-items: center;
 
 }
-
+#body {
+  padding: 0px;
+  margin: 0px;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;
+}
 #user-info {
   margin: 0px auto;
   width: 30%;
