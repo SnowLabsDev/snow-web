@@ -22,8 +22,8 @@ ReactDOM.render(
         <Switch>
           <Route exact path="/" component={SignIn} />
           <Route path="/users/id/:id/" component={App} />
-          <Route exact path="/test/" component={Test} />
-          <Route path="/test/users/id/:id/contracts/" component={Test} />
+          <Route path="/test/" component={Test} />
+          <Route path="/test/users/id/:id/contracts/id/:id/" component={Test} />
         </Switch>
       </div>
     </Router>

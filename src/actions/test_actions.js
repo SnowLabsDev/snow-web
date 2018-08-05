@@ -3,6 +3,7 @@ import {
   AUTH_PIN_CHANGED,
   AUTH_SUCCESS,
   AUTH_FAILURE,
+  LINK_PRESSED,
 } from '../types';
 import axios from 'axios';
 
@@ -60,4 +61,24 @@ export const trySignIn = async ({ auth_phone, auth_pin }) => {
       payload: res.data,
     };
   }
+};
+
+
+export const linkPressed = async ({user_id, ctr_id}) => {
+  console.log(user_id);
+  console.log(ctr_id);
+  let from_url = `${API_URL}contracts/id/${ctr_id}`
+  let res = await axios.get(from_url);
+  console.log(res.data);
+
+  history.push(
+    {
+      pathname: `/test/users/id/${user_id}/contracts/id/${ctr_id}`
+    }
+  )
+
+  return {
+    type: LINK_PRESSED,
+    payload: res.data,
+  };
 };

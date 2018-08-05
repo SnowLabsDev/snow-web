@@ -2,23 +2,63 @@
 
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { linkPressed } from '../actions';
 
-export default class Sidebar extends Component {
+
+const mapStateToProps = ({ test }) => {
+  const { user_info } = test;
+  return {
+    user_info
+  };
+};
+
+export default connect(mapStateToProps, { linkPressed })(class Sidebar extends Component {
   state = {
     inFocus: null
   }
 
-  componentWillMount () {
-    console.log('mounting');
-
-    console.log(this.props.location);
-
-  }
-  handleFocus = (key) => {
-    this.setState({inFocus: key});
-    console.log(this.state.inFocus);
+  linkPressed = (ctr_id) => {
+    //console.log(ctr_id)
+    this.props.linkPressed(ctr_id);
   }
 
+
+  mapOwn = () => {
+
+    const user_id = this.props.user._id;
+    const output = this.props.user.ownContracts.map((ctr_id) => {
+      return (
+        <li
+          key={ctr_id}
+          style={styles.sectionItem}
+          onClick={() => this.linkPressed({user_id, ctr_id})}
+          >
+            {ctr_id}
+        </li>
+      );
+    });
+
+    return output;
+  }
+
+  mapIn = () => {
+
+    const user_id = this.props.user._id;
+    const output = this.props.user.inContracts.map((ctr_id) => {
+      return (
+        <li
+          key={ctr_id}
+          style={styles.sectionItem}
+          onClick={() => this.linkPressed({user_id, ctr_id})}
+          >
+            {ctr_id}
+        </li>
+      );
+    });
+
+    return output;
+  }
 
   render() {
     return (
@@ -34,34 +74,23 @@ export default class Sidebar extends Component {
 
           <div style={{"display": "block"}}>
             <div style={styles.sectionHeader}>My Contracts</div>
-            <div style={styles.sectionContainer}> {/* contions the contracts, separate into its own component */}
-
-              <Link
-                to={`/test/users/id/${this.props.user._id}/contracts/id/?id=${this.props.user.ownContracts[0]}`}
-                style={styles.sectionItem}
-                onClick={this.props.func}
-
-                >TEST</Link>
-
-              {/*<a
-                style={styles.sectionItem}
-                value={"0"}
-                onClick={() => this.handleFocus(value)}>test test test</a>
-              <p>test test test</p>
-              <p>test test test</p>
-              */}
+            <div style={styles.sectionContainer}> {/* contians the contracts, separate into its own component */}
+              {this.mapOwn()}
             </div>
           </div>
 
           <div style={{"display": "block"}}>
             <div style={styles.sectionHeader}>Friend's Contracts</div>
+            <div style={styles.sectionContainer}> {/* contians the contracts, separate into its own component */}
+              {this.mapIn()}
+            </div>
           </div>
 
         </div>
       </div>
     );
   }
-}
+});
 
 const styles = {
   sidebarContainer: {
@@ -90,11 +119,11 @@ const styles = {
   },
   sectionContainer: {
     "position": "relative",
-    "display": "block",
+    "display": "flex",
     "padding-left": "20px",
     "font-size": "13px",
     "line-height": "1.8",
-    "box-sizing": "border-box"
+    "flex-direction": "column"
   },
   sectionItem: {
     "color": "inherit",

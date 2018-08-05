@@ -3,6 +3,7 @@ import {
   AUTH_PIN_CHANGED,
   AUTH_SUCCESS,
   AUTH_FAILURE,
+  LINK_PRESSED,
 } from '../types';
 
 const INIT_STATE = {
@@ -11,6 +12,7 @@ const INIT_STATE = {
   auth_status: false,
   user_info: {},
   error_message: '',
+  contract: {}
 };
 
 export default function(state = INIT_STATE, action) {
@@ -29,6 +31,9 @@ export default function(state = INIT_STATE, action) {
     case AUTH_FAILURE:
       return {...state, auth_state: false, error_message: action.payload}
 
+    case LINK_PRESSED:
+      return {...state, contract: action.payload};
+      
     default:
       return state;
   }

@@ -1,24 +1,18 @@
 import React, { Component } from 'react';
-//import './App.css';
-//import logo from '../snow-logo.png'
 import axios from 'axios';import 'babel-polyfill';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
-//import { Link } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
-/*
-import {
-  populateContracts
-} from '../actions';
-*/
+import ContractView from '../components/ContractView';
 
 const TEST_OR_NAH = true;
 const API_URL = TEST_OR_NAH ? "http://localhost:3050/api/" : "https://snowlabsdev-api.herokuapp.com/api/";
 
 const mapStateToProps = ({ test }) => {
-  const { user_info } = test;
+  const { user_info, contract } = test;
   return {
     user_info,
+    contract
   };
 };
 
@@ -27,38 +21,14 @@ export default connect(mapStateToProps, { })(class App extends Component {
 
   state = {
     user: {
-      ownContracts: ["0", "1", "2"],
-      inContracts: ["3", "4", "5"],
+      ownContracts: ["5b673bc8ba222e5412e940ea", "5b66064942d1a94c6d4c5b99"],
+      inContracts: ["5b674730ba222e5412e940eb", "5b67474fba222e5412e940ec"],
       _id: "5b5f827c60770000148d7ca1",
-      name: "test 0",
+      name: "Tyler",
       phone: "0000000000",
       pin: "0000",
       __v: 0
     },
-    contract: 'test'
-  }
-
-  componentWillMount () {
-    if (this.props.location.hasOwnProperty('search')) {
-      console.log('search');
-    }
-  }
-
-  
-  populate = async (t) => {
-    console.log('trying');
-    if (this.props.location) {
-      console.log(this.props.location.search);
-
-      const parsedProps = queryString.parse(this.props.location.search);
-      const id = "5b66064942d1a94c6d4c5b99";
-      const from_url = `${API_URL}contracts/id/${id}`
-      const res = await axios.get(from_url);
-      console.log(res.data._id);
-
-      this.setState({contract: res.data._id});
-
-    }
   }
 
   render() {
@@ -68,7 +38,7 @@ export default connect(mapStateToProps, { })(class App extends Component {
 
 
         <div>
-          <p>{this.state.contract}</p>
+          <ContractView />
         </div>
 
         <div>
