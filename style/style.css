@@ -3,7 +3,6 @@
   background-color: #ff5656ff;
   height: 100% !important;
   width: 100% !important;
-  margin: 0;
   position: absolute;
   margin: auto;
   justify-content: center;
@@ -53,6 +52,4 @@
   width: 60%;
   height: 30%;
   padding-top: 30px;
-  border-color: blue;
-  border-width: 1px;
 }

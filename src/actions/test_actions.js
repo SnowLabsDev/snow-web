@@ -35,34 +35,29 @@ export const authSuccess = (user_obj) => {
 
 export const trySignIn = async ({ auth_phone, auth_pin }) => {
   const from_url = API_URL + "users/auth/" + auth_phone + "/"+ auth_pin;
-  console.log(from_url);
-
-  /*
-  try {
-    const user = await axios.get(from_url);
-    console.log(user.data);
-
-    return {
-      type: AUTH_SUCCESS,
-      payload: user.data,
-    };
-  } catch (err) {
-    console.log(err);
-  }
-  */
-
 
   const res = await axios.get(from_url);
   console.log(res.data);
 
   if (res.hasOwnProperty('err')) { // bad error handling
     console.log('fail');
-  } else {
-
     return {
       type: AUTH_FAILURE,
+      payload: res.err,
+    };
+  }
+  else {
+    // successful login, change to app
+    history.push(
+      {
+        pathname: `users/id/${res.data._id}`,
+        state: { user_info: res.data }
+      }
+    );
+
+    return {
+      type: AUTH_SUCCESS,
       payload: res.data,
     };
   }
-
 };

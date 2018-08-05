@@ -24,12 +24,10 @@ export default function(state = INIT_STATE, action) {
       return {...state, auth_pin: action.payload};
 
     case AUTH_SUCCESS:
-      console.log('success');
       return {...state, auth_status: true, user_info: action.payload}
 
     case AUTH_FAILURE:
-      console.log('failure');
-      return {...state, auth_state: false, error_message: 'yah done fucked up homie'}
+      return {...state, auth_state: false, error_message: action.payload}
 
     default:
       return state;

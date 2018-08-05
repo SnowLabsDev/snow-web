@@ -11,6 +11,7 @@ import history from './history';
 
 import SignIn from './screens/SignIn';
 import App from './screens/App';
+import Test from './screens/Test';
 
 const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
 
@@ -20,7 +21,8 @@ ReactDOM.render(
       <div>
         <Switch>
           <Route exact path="/" component={SignIn} />
-          <Route path="/home" component={App} />
+          <Route path="/users/id/:id/" component={App} />
+          <Test exact path="/test/" component={Test} />
         </Switch>
       </div>
     </Router>
