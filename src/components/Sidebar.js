@@ -5,37 +5,31 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { linkPressed } from '../actions';
 
+import LinkContainer from './contract-view-components/LinkContainer';
 
-const mapStateToProps = ({ test }) => {
-  const { user_info } = test;
+const mapStateToProps = ({ auth }) => {
+  const { user_info } = auth;
   return {
     user_info
   };
 };
 
 export default connect(mapStateToProps, { linkPressed })(class Sidebar extends Component {
-  state = {
-    inFocus: null
-  }
 
-  linkPressed = (ctr_id) => {
-    //console.log(ctr_id)
-    this.props.linkPressed(ctr_id);
+  linkPressed = (contract_id) => {
+    this.props.linkPressed(contract_id);
   }
-
 
   mapOwn = () => {
-
-    const user_id = this.props.user._id;
-    const output = this.props.user.ownContracts.map((ctr_id) => {
+    const user_id = this.props.user_info._id;
+    const output = this.props.user_info.ownContracts.map((contract_id) => {
       return (
-        <li
-          key={ctr_id}
+        <LinkContainer
+          key={contract_id}
           style={styles.sectionItem}
-          onClick={() => this.linkPressed({user_id, ctr_id})}
-          >
-            {ctr_id}
-        </li>
+          item={contract_id}
+          focus={(focusedContract) => this.linkPressed(focusedContract)}
+        />
       );
     });
 
@@ -43,17 +37,16 @@ export default connect(mapStateToProps, { linkPressed })(class Sidebar extends C
   }
 
   mapIn = () => {
-
-    const user_id = this.props.user._id;
-    const output = this.props.user.inContracts.map((ctr_id) => {
+    const user_id = this.props.user_info._id;
+    const output = this.props.user_info.inContracts.map((contract_id) => {
+      console.log(contract_id);
       return (
-        <li
-          key={ctr_id}
+        <LinkContainer
+          key={contract_id}
           style={styles.sectionItem}
-          onClick={() => this.linkPressed({user_id, ctr_id})}
-          >
-            {ctr_id}
-        </li>
+          item={contract_id}
+          focus={(focusedContract) => this.linkPressed(focusedContract)}
+        />
       );
     });
 
@@ -61,6 +54,7 @@ export default connect(mapStateToProps, { linkPressed })(class Sidebar extends C
   }
 
   render() {
+
     return (
       <div style={styles.sidebarContainer}>
         <div style={{"display": "flex", "justify-content": "center"}}>
@@ -69,25 +63,26 @@ export default connect(mapStateToProps, { linkPressed })(class Sidebar extends C
 
         <div style={{"display": "flex", "position": "relative", "flex-direction": "column", "width": "100%"}}>
           <div style={{"display": "flex", "flex-direction": "row", "justify-content": "center"}}>
-            <p>Hello {this.props.user.name}!</p>
+            <p>Hello {this.props.user_info.name}!</p>
           </div>
 
           <div style={{"display": "block"}}>
-            <div style={styles.sectionHeader}>My Contracts</div>
-            <div style={styles.sectionContainer}> {/* contians the contracts, separate into its own component */}
+            <div style={styles.sectionHeader}>My Contracts:</div>
+            <div style={styles.sectionContainer}>
               {this.mapOwn()}
             </div>
           </div>
 
           <div style={{"display": "block"}}>
-            <div style={styles.sectionHeader}>Friend's Contracts</div>
-            <div style={styles.sectionContainer}> {/* contians the contracts, separate into its own component */}
+            <div style={styles.sectionHeader}>Contracts You're In:</div>
+            <div style={styles.sectionContainer}>
               {this.mapIn()}
             </div>
           </div>
 
         </div>
       </div>
+
     );
   }
 });

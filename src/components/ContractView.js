@@ -1,62 +1,66 @@
-/* @flow weak */
-
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import FunctionDetails from './contract-view-components/FunctionDetails';
+import ContractDetails from './contract-view-components/ContractDetails';
 
-const mapStateToProps = ({ test }) => {
-  const { contract } = test;
+import { setIntoFocus } from '../actions';
+
+const mapStateToProps = ({ auth, main }) => {
+  const { user_info } = auth;
+  const { contract } = main;
+  
   return {
+    user_info,
     contract
   };
 };
 
-export default connect(mapStateToProps, {  })(class ContractView extends Component {
+export default connect(mapStateToProps, { setIntoFocus })(class ContractView extends Component {
 
-  popParticipants = () => {
-    if (this.props.contract.hasOwnProperty('participants')) {
-      const inCtr = this.props.contract.participants.map((user) => {
-        return <li>{user}</li>
-      });
+  setIntoFocus = (focusedItem, type) => {
+    let focusedObj = {};
 
-      return inCtr;
-    } else {
-      return <div></div>
-    }
-  }
+    switch(type) {
+      case 'user':
+        focusedObj = this.props.contract.participants
+          .find(obj => obj.name === focusedItem);
 
-  popContractInfo = () => {
-    if (this.props.contract.hasOwnProperty('owner')) {
-      return (
+        this.props.setIntoFocus(focusedObj, type);
 
-        <div style={styles.contractContainer}>
-          <div style={styles.contractHeader}>
-            <h2>{this.props.contract._id}</h2>
-          </div>
+      case 'function':
+        focusedObj = this.props.contract.solidityContract.functions
+          .find(obj => obj.name === focusedItem);
 
-          <div style={styles.contractContent}>
-              <p><b>Owner:</b> {this.props.contract.owner}</p>
-              <p><b>Participants:</b></p>
-              <ul>
-                {this.popParticipants()}
-              </ul>
-            <p><b>Contract Type:</b> {this.props.contract.contractType}</p>
-            <p><b>Proposal Name:</b> {this.props.contract.arguments[0]}</p>
-          </div>
-        </div>
-      );
-    } else {
-      return (<div></div>);
+        this.props.setIntoFocus(focusedObj, type);
+
+      default:
+        focusedObj = {default: ':()'}
     }
   }
 
   render() {
-    return (
-      <div>
-        {this.popContractInfo()}
-      </div>
-    );
+    if (this.props.contract.hasOwnProperty('owner')) {
+      return (
+        <div style={styles.contractContainer}>
+          <div style={styles.contractHeader}>
+            <h2>{this.props.contract._id}</h2>
+          </div>
+          <ContractDetails
+            contract={this.props.contract}
+            focus={(focusedItem) => this.setIntoFocus(focusedItem, 'user')} />
+          <FunctionDetails
+            user_id={this.props.user_info._id}
+            owner={this.props.contract.owner}
+            participants={this.props.participants}
+            functions={this.props.contract.solidityContract.functions}
+            focus={(focusedItem) => this.setIntoFocus(focusedItem, 'function')} />
+        </div>
+      );
+    } else {
+      return <div></div>;
+    }
   }
 });
 
@@ -68,7 +72,7 @@ const styles = {
     "left": "350px",
     "top": "50px",
     "height": "70%",
-    "width": "35%",
+    "width": "30%",
     "background-color": "white",
     "border-radius": "6px",
   },
@@ -77,26 +81,4 @@ const styles = {
     "width": "100%",
     "padding-left": "20px",
   },
-  contractContent: {
-    "position": "relative",
-    "width": "100%",
-    "padding-left": "20px",
-  }
 };
-
-/*
-._19dgx6v {
-    bottom: 40px;
-    box-shadow: rgba(0, 0, 0, 0.75) 0px 5px 20px;
-    display: flex;
-    flex-direction: column;
-    height: 70vh;
-    left: 290px;
-    position: static;
-    top: 40px;
-    width: auto;
-    background: white;
-    border-radius: 6px;
-}
-
-*/
