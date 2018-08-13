@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import Sidebar from '../components/Sidebar';
 import ContractView from '../components/ContractView';
 import InfoView from '../components/InfoView';
+import CreateView from '../components/CreateView';
+import DraftView from '../components/DraftView';
 
 const TEST_OR_NAH = true;
 const API_URL = TEST_OR_NAH ? "http://localhost:3050/api/" : "https://snowlabsdev-api.herokuapp.com/api/";
@@ -26,6 +28,8 @@ export default connect(mapStateToProps, {})(class App extends Component {
           <Sidebar />
           <ContractView />
           <InfoView />
+          <CreateView />
+          <DraftView />
         </div>
       );
     } else {

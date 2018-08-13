@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { linkPressed } from '../actions';
+import { contractPressed, changeCreateViewStatus } from '../actions';
 
 import LinkContainer from './contract-view-components/LinkContainer';
 
@@ -14,21 +14,28 @@ const mapStateToProps = ({ auth }) => {
   };
 };
 
-export default connect(mapStateToProps, { linkPressed })(class Sidebar extends Component {
+export default connect(mapStateToProps, { contractPressed, changeCreateViewStatus })(class Sidebar extends Component {
 
-  linkPressed = (contract_id) => {
-    this.props.linkPressed(contract_id);
+  componentDidMount() {
+    console.log(this.props.user_info);
+  }
+
+  contractPressed = (contract_id, type) => {
+    this.props.contractPressed(contract_id, type);
+  }
+
+  createButtonPressed = () => {
+    this.props.changeCreateViewStatus('open');
   }
 
   mapOwn = () => {
-    const user_id = this.props.user_info._id;
     const output = this.props.user_info.ownContracts.map((contract_id) => {
       return (
         <LinkContainer
           key={contract_id}
           style={styles.sectionItem}
           item={contract_id}
-          focus={(focusedContract) => this.linkPressed(focusedContract)}
+          focus={(focusedContract) => this.contractPressed(focusedContract, 'active')}
         />
       );
     });
@@ -37,15 +44,13 @@ export default connect(mapStateToProps, { linkPressed })(class Sidebar extends C
   }
 
   mapIn = () => {
-    const user_id = this.props.user_info._id;
     const output = this.props.user_info.inContracts.map((contract_id) => {
-      console.log(contract_id);
       return (
         <LinkContainer
           key={contract_id}
           style={styles.sectionItem}
           item={contract_id}
-          focus={(focusedContract) => this.linkPressed(focusedContract)}
+          focus={(focusedContract) => this.contractPressed(focusedContract, 'active')}
         />
       );
     });
@@ -53,8 +58,41 @@ export default connect(mapStateToProps, { linkPressed })(class Sidebar extends C
     return output;
   }
 
-  render() {
+  mapDrafts = () => {
+    if (this.props.user_info.hasOwnProperty('draftContracts')) {
+      const output = this.props.user_info.draftContracts.map((contract_id) => {
+        return (
+          <LinkContainer
+            key={contract_id}
+            style={styles.sectionItem}
+            item={contract_id}
+            focus={(focusedContract) => this.contractPressed(focusedContract, 'draft')}
+          />
+        );
+      });
 
+      return output;
+    }
+  }
+
+  mapInactive = () => {
+    if (this.props.user_info.hasOwnProperty('archivedContracts')) {
+      const output = this.props.user_info.archivedContracts.map((contract_id) => {
+        return (
+          <LinkContainer
+            key={contract_id}
+            style={styles.sectionItem}
+            item={contract_id}
+            focus={(focusedContract) => this.contractPressed(focusedContract, 'inactive')}
+          />
+        );
+      });
+
+      return output;
+    }
+  }
+
+  render() {
     return (
       <div style={styles.sidebarContainer}>
         <div style={{"display": "flex", "justify-content": "center"}}>
@@ -79,6 +117,22 @@ export default connect(mapStateToProps, { linkPressed })(class Sidebar extends C
               {this.mapIn()}
             </div>
           </div>
+
+          <div style={{"display": "block"}}>
+            <div style={styles.sectionHeader}>Your Drafts:</div>
+            <div style={styles.sectionContainer}>
+              {this.mapDrafts()}
+            </div>
+          </div>
+
+          <div style={{"display": "block"}}>
+            <div style={styles.sectionHeader}>Your Archived Contracts:</div>
+            <div style={styles.sectionContainer}>
+              {this.mapInactive()}
+            </div>
+          </div>
+
+          <button onClick={this.createButtonPressed}>create</button>
 
         </div>
       </div>

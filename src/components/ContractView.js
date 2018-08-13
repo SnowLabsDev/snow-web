@@ -9,11 +9,12 @@ import { setIntoFocus } from '../actions';
 
 const mapStateToProps = ({ auth, main }) => {
   const { user_info } = auth;
-  const { contract } = main;
-  
+  const { contract, focusContractView } = main;
+
   return {
     user_info,
-    contract
+    contract,
+    focusContractView,
   };
 };
 
@@ -41,7 +42,7 @@ export default connect(mapStateToProps, { setIntoFocus })(class ContractView ext
   }
 
   render() {
-    if (this.props.contract.hasOwnProperty('owner')) {
+    if (this.props.focusContractView) {
       return (
         <div style={styles.contractContainer}>
           <div style={styles.contractHeader}>
