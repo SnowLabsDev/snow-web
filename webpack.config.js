@@ -6,6 +6,24 @@ module.exports = {
     filename: 'bundle.js'
   },
   module: {
+    rules: [
+      {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        use: 'babel-loader'
+      },
+      {
+        test: /\.css$/,
+        exclude: /node_modules/,
+        use: 'css-loader'
+      },
+
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: 'babel-loader'
+      }
+  ],
     loaders: [
       {
         exclude: /node_modules/,
@@ -17,7 +35,7 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: ['*', '.css', '.js', '.jsx']
   },
   devServer: {
     historyApiFallback: true,
