@@ -1,3 +1,9 @@
+body {
+  padding: 0px;
+  margin: 0px;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;
+}
+
 .AppContainer {
   display: flex;
   position: absolute;
@@ -9,28 +15,71 @@
 }
 
 .SidebarContainer {
-  background-color: grey;
+  background-color: white;
   position: relative;
   width: 280px;
   height: 100%;
+  border-right: 3px solid #464953;
 }
 
 .ScreenContainer {
-  background-color: blue;
+  background-color: white;
   width: 80%;
   height: 100%;
 }
 
-.NavButtonContainer {
+.NavOptionsContainer {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   height: 100%;
+  width: 100%;
+
 }
 
 .NavButton {
-  font-size: 18px;
-  text-align: center;
+  display: flex;
+  flex-direction: row;
+  font-size: 24px;
+  font-weight: 500;
+  color: #464953;
   cursor: pointer;
-  width: 100px
+  width: 100%;
+  height: 75;
+  border-top: 3px solid #464953;
+}
+
+.NavButton:hover {
+  color: #ff5656;
+  opacity: 0.90;
+}
+
+.NavIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ff5656;
+  border-right: 3px solid #464953;
+  height: 75px;
+  width: 75px;
+}
+
+.NavText {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 205px;
+}
+.SidebarLogoContainer {
+  display: flex;
+  justify-content: center;
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+.SidebarLogo {
+  position: relative;
+  width: 85%;
+  height: 15%;
 }
