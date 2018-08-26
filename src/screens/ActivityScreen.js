@@ -4,7 +4,7 @@ class ActivityScreen extends Component {
 
   render() {
     return (
-      <div className="ScreenContainer">
+      <div style={this.props.style}>
         <p>ActivityScreen</p>
       </div>
     );

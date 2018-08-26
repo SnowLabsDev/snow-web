@@ -1,5 +1,6 @@
 import {
-  SCREEN_TO_FOCUS
+  SCREEN_TO_FOCUS,
+  SEARCH_TO_FOCUS,
 } from '../types';
 
 import axios from 'axios';
@@ -12,5 +13,12 @@ export const setScreenIntoFocus = (screenToFocus) => {
   return {
     type: SCREEN_TO_FOCUS,
     payload: screenToFocus,
+  };
+};
+
+export const setSearchbarIntoFocus = (searchToFocus) => {
+  return {
+    type: SEARCH_TO_FOCUS,
+    payload: searchToFocus, //allows us to toggle with the same action creator
   };
 };

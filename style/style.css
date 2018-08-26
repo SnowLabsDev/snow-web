@@ -15,15 +15,18 @@ body {
 }
 
 .SidebarContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background-color: white;
   position: relative;
-  width: 280px;
+  width: 220px;
   height: 100%;
   border-right: 3px solid #464953;
 }
 
 .ScreenContainer {
-  background-color: white;
+  background-color: #ff5656;
   width: 80%;
   height: 100%;
 }
@@ -33,15 +36,14 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100%;
   width: 100%;
-
+  padding-top: 25px;
 }
 
 .NavButton {
   display: flex;
   flex-direction: row;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 500;
   color: #464953;
   cursor: pointer;
@@ -52,7 +54,7 @@ body {
 
 .NavButton:hover {
   color: #ff5656;
-  opacity: 0.90;
+  opacity: 0.85;
 }
 
 .NavIcon {
@@ -61,8 +63,8 @@ body {
   align-items: center;
   background-color: #ff5656;
   border-right: 3px solid #464953;
-  height: 75px;
-  width: 75px;
+  height: 50px;
+  width: 50px;
 }
 
 .NavText {
@@ -77,9 +79,36 @@ body {
   justify-content: center;
   padding-top: 25px;
   padding-bottom: 25px;
+  border-bottom: 1px solid #DCDCDC;
 }
 .SidebarLogo {
   position: relative;
   width: 85%;
   height: 15%;
+}
+
+.SidebarButton {
+  display: flex;
+  border: 3px solid white;
+  background-color: #ff5656;
+  height: 35px;
+  width: 66%;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  font-size: 20px;
+  margin-top: 75px;
+  padding: 10px;
+  padding-right: 16px;
+  padding-left: 16px;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.SidebarButton:hover {
+  opacity: 0.85;
+  border: 3px solid #ff5656;
+  background-color: white;
+  color: #ff5656;
 }

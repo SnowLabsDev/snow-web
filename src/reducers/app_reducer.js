@@ -1,9 +1,11 @@
 import {
-  SCREEN_TO_FOCUS
+  SCREEN_TO_FOCUS,
+  SEARCH_TO_FOCUS,
 } from '../types';
 
 const INIT_STATE = {
-  screenToFocus: 'activity'
+  screenToFocus: '',
+  searchToFocus: false,
 };
 
 export default function(state = INIT_STATE, action) {
@@ -12,6 +14,9 @@ export default function(state = INIT_STATE, action) {
 
       return {...state, screenToFocus: action.payload};
 
+    case SEARCH_TO_FOCUS:
+      return {...state, searchToFocus: action.payload};
+      
     default:
       return state;
   }

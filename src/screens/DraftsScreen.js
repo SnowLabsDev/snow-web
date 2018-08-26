@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 
-class GroupsScreen extends Component {
+class DraftsScreen extends Component {
 
   render() {
     return (
       <div style={{backgroundColor: 'white'}}>
-        <p>GroupsScreen</p>
+        <p>DraftsScreen</p>
       </div>
     );
   }
 
 }
 
-export default GroupsScreen;
+export default DraftsScreen;
