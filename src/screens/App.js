@@ -1,38 +1,38 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Sidebar from '../components/Sidebar';
+// Screens
 import ActivityScreen from './ActivityScreen';
 import DraftsScreen from './DraftsScreen';
 import GroupsScreen from './GroupsScreen';
 import ImportantScreen from './ImportantScreen';
-import Header from '../components/Header';
 
-import { setScreenIntoFocus } from '../actions';
+// Components
+import Header from '../components/header/Header';
+import HeaderDropdownContainer from '../components/header/header-dropdown/HeaderDropdownContainer';
+import Sidebar from '../components/Sidebar';
 
-const AppContainer = {
+// Redux
+import { setScreenIntoFocus, setDropdownMenuIntoFocus } from '../actions';
+
+const AppContainerStyle = {
   display: "flex",
   position: "absolute",
-  width: "100%",
-  height: "100%",
+  width: `${window.outerWidth}px`,
+  height: `${window.outerHeight}px`,
   margin: "auto",
   padding: "auto",
   flexDirection: "row",
 };
 
-const AppContainerDimmed = {
-  opacity: 0.2,
-};
-
-
-
 const mapStateToProps = ({ app }) => {
-  const { screenToFocus, searchToFocus } = app;
+  const { screenToFocus, searchToFocus, dropdownType, dropdownToFocus } = app;
 
   return {
     screenToFocus,
+    dropdownType,
     searchToFocus,
+    dropdownToFocus,
   };
 }
 
@@ -57,17 +57,8 @@ class App extends Component {
   }
 
   render() {
-    let foobar = false;
-    let container;
-    if (foobar) {
-      container = {...AppContainer, ...AppContainerDimmed};
-    } else {
-      container = {...AppContainer};
-    }
-
-    console.log(`screenFocused: ${this.props.screenToFocus}`)
     return (
-      <div style={container}>
+      <div style={AppContainerStyle}>
         <Sidebar
           focusFunc={(screenToFocus) => this.props.setScreenIntoFocus(screenToFocus)}
           currentFocus={this.props.screenToFocus}
@@ -75,21 +66,24 @@ class App extends Component {
         <div style={{
           display: 'flex',
           flexDirection: 'column',
-          width: '100%',
+          width: `${window.outerWidth - 280}px`,
           height: '100%',
         }}>
-          <Header />
+          <Header
+            dropdownType={this.props.dropdownType}
+            setDropdownMenuIntoFocus={(type, bool) => this.props.setDropdownMenuIntoFocus(type, bool)}
+          />
+
+          <HeaderDropdownContainer
+            dropdownToFocus={this.props.dropdownToFocus}
+            dropdownType={this.props.dropdownType}
+            handleOptionItemClick={(optionItem) => console.log(`optionItem: ${optionItem}`)}
+          />
           {this.popScreen()}
         </div>
-
       </div>
     );
   }
 }
 
-export default connect(mapStateToProps, { setScreenIntoFocus })(App);
-
-// going to need a callback function in the Sidebar to switch the state
-// make the full router for this
-// to do that we're going to need to add the redux components to everything, then re-add the Provider
-// to do that we're going to need to add the reducers and action creators for the first
+export default connect(mapStateToProps, { setScreenIntoFocus, setDropdownMenuIntoFocus })(App);

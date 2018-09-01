@@ -8,6 +8,7 @@ const SidebarContainer = {
   backgroundColor: '#494949',
   position: 'relative',
   width: '280px',
+  maxWidth: '280px',
   height: '100%',
 };
 
@@ -30,6 +31,7 @@ const NavOptionsContainer = {
   flexDirection: 'column',
   alignItems: 'center',
   width: '100%',
+  maxWidth: '100%',
   paddingTop: '25px',
 };
 

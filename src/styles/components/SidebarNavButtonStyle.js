@@ -7,6 +7,7 @@ export const navButtonContainer = {
   color: '#464953',
   cursor: 'pointer',
   width: '100%',
+  maxWidth: '100%',
   height: '30px',
 };
 
